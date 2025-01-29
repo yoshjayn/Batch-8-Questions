@@ -224,14 +224,17 @@ function longestEqualSubarray(arr) {
     for (let i = 0; i < arr.length; i++) {
         cumulativeSum += arr[i] === 0 ? -1 : 1; // If cumulativeSum is 0, the subarray from the start to the current index has 
                                                 // equal 0s and 1s
-        if (cumulativeSum === 0) {
-            maxLength = i + 1;
+        if (cumulativeSum === 0) {    //If cumulativeSum becomes 0, it means the subarray from the start to the current index has an equal number of 0s and 1s. 
+            maxLength = i + 1;        //Update maxLength.
         }
 
-        if (map.has(cumulativeSum)) {
-            maxLength = Math.max(maxLength, i - map.get(cumulativeSum));
+        if (map.has(cumulativeSum)) {            //If the cumulativeSum has been seen before (stored in the Map), it means the subarray between the previous index (where 
+                                                 //this sum was first seen) and the current index has equal 0s and 1s.
+            
+            maxLength = Math.max(maxLength,i - map.get(cumulativeSum));     //Update maxLength if this subarray is longer.
+                                                 
         } else {
-            map.set(cumulativeSum, i);
+            map.set(cumulativeSum, i);          //If the cumulativeSum is new, store it in the Map with its index.
         }
     }
 
