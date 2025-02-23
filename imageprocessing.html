@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Operations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .image-container img {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            max-width: 100px;
+            max-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Operations</h1>
+    <div class="image-container" id="imageContainer">
+        <!-- Images will be dynamically added here -->
+    </div>
+
+    <script>
+        // Minimal JavaScript to get you started
+        function imageOperation(work, time) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(work());
+                }, time);
+            });
+        }
+
+        const images = [
+            { src: "image1.jpg", valid: true },
+            { src: "image2.jpg", valid: true },
+            { src: "image3.jpg", valid: false }
+        ]; // Example array of image objects
+
+        const imageContainer = document.getElementById("imageContainer");
+
+        images.forEach((image) => {
+            // Display the image in the container
+            const imgElement = document.createElement("img");
+            imgElement.src = image.src;
+            imageContainer.appendChild(imgElement);
+
+            // Start the image operations
+            imageOperation(() => validateImage(image), 2000)
+                .then((response) => {
+                    return imageOperation(() => resizeImage(image), 1000);
+                })
+                .then((response) => {
+                    return imageOperation(() => uploadImage(image), 3000);
+                })
+                .then((response) => {
+                    console.log("Image uploaded:", image.src);
+                })
+                .catch((error) => {
+                    console.error("Error processing image:", image.src, error);
+                });
+        });
+
+        // Placeholder functions for you to implement
+        function validateImage(image) {
+            console.log("Validating image:", image.src);
+            if (!image.valid) {
+                throw new Error("Invalid image");
+            }
+            return image;
+        }
+
+        function resizeImage(image) {
+            console.log("Resizing image:", image.src);
+            return image;
+        }
+
+        function uploadImage(image) {
+            console.log("Uploading image:", image.src);
+            return image;
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+    <!-- <script>
+        function imageOperation(work, time){
+                return new Promise((resolve, reject)=>{
+                    setTimeout(()=>{
+                        resolve(work())
+                    }, time)
+                })
+            }
+
+        const images = []; // array of image objects
+        images.forEach((image) => {
+
+            imageOperation(()=>validateImage(image), 2000)
+            .then(response =>{
+               imageOperation(()=>resizeImage(image), 1000)
+            })
+            .then(
+                response =>{
+                    imageOperation(()=>uploadImage(image), 3000)
+                }
+            )
+            .then(
+                response =>{
+                    console.log('Image uploaded')
+                }
+            )
+            .catch()
+           
+
+        });
+    </script> -->
